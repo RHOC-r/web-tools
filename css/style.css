@@ -1,0 +1,147 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans JP",
+    sans-serif;
+
+  background: #f5f7fb;
+  color: #222;
+  min-height: 100vh;
+}
+
+header {
+  height: 64px;
+  background: white;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  color: #222;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.hero h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  color: #666;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.tool-card {
+  background: white;
+  padding: 30px;
+  border-radius: 14px;
+
+  text-decoration: none;
+  color: #222;
+
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+
+  transition: 0.2s;
+}
+
+.tool-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.tool-icon {
+  font-size: 42px;
+  margin-bottom: 20px;
+}
+
+.tool-card h2 {
+  margin-bottom: 10px;
+}
+
+.tool-card p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* ツール画面 */
+
+.tool-page {
+  max-width: 800px;
+  margin: auto;
+}
+
+.tool-box {
+  background: white;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.tool-title {
+  margin-bottom: 20px;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+}
+
+.primary-button {
+  background: #2563eb;
+  color: white;
+}
+
+.secondary-button {
+  background: #e5e7eb;
+}
+
+footer {
+  text-align: center;
+  color: #888;
+  padding: 30px;
+}
+
+/* スマホ */
+
+@media (max-width: 768px) {
+
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+
+}
