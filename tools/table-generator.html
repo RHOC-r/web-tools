@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>CREATE TABLE文生成｜SQLテーブル作成ツール</title>
+
+  <meta
+    name="description"
+    content="カラム名、データ型、PRIMARY KEY、NOT NULL、UNIQUEなどを表形式で設定してCREATE TABLE文を簡単に生成できる無料SQLツールです。"
+  >
+
+  <meta name="robots" content="index, follow">
+
+  <link
+    rel="stylesheet"
+    href="../css/style.css"
+  >
+
+  <style>
+
+    .generator-description {
+      color: #666;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .form-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+
+    /* =========================
+       テーブル
+    ========================= */
+
+    .column-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 15px;
+    }
+
+    .column-table {
+      width: 100%;
+      min-width: 1100px;
+      border-collapse: collapse;
+    }
+
+    .column-table th,
+    .column-table td {
+      padding: 10px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .column-table th {
+      background: #f8fafc;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .column-table input[type="text"],
+    .column-table input[type="number"],
+    .column-table select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 9px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: white;
+      font-size: 14px;
+    }
+
+    .column-table input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .checkbox-cell {
+      text-align: center !important;
+    }
+
+    .required {
+      color: #dc2626;
+      font-size: 12px;
+    }
+
+
+    /* =========================
+       ボタン
+    ========================= */
+
+    .generator-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    button {
+      transition:
+        filter 0.08s ease,
+        transform 0.08s ease;
+    }
+
+    button:active {
+      filter: brightness(0.75);
+      transform: scale(0.97);
+    }
+
+    .delete-column-button {
+      padding: 9px 14px;
+      border: none;
+      border-radius: 6px;
+      background: #ef4444;
+      color: white;
+      cursor: pointer;
+    }
+
+
+    /* =========================
+       メッセージ
+    ========================= */
+
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 12px 15px;
+      border-radius: 8px;
+    }
+
+    .message.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .message.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+
+    /* =========================
+       SQL出力
+    ========================= */
+
+    .output-area {
+      margin-top: 35px;
+    }
+
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .output-header h2 {
+      margin: 0;
+    }
+
+    #sqlOutput {
+      width: 100%;
+      min-height: 350px;
+      box-sizing: border-box;
+      resize: vertical;
+
+      padding: 15px;
+
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+
+      background: #111827;
+      color: #f9fafb;
+
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+
+    /* =========================
+       説明
+    ========================= */
+
+    .tool-description {
+      margin-top: 50px;
+      line-height: 1.8;
+    }
+
+    .tool-description h2 {
+      margin-top: 30px;
+    }
+
+    .example-box {
+      padding: 15px;
+      margin-top: 10px;
+      overflow-x: auto;
+      border-radius: 8px;
+      background: #f8fafc;
+    }
+
+    @media (max-width: 600px) {
+
+      .generator-buttons {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .output-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+<header>
+
+  <a
+    href="../index.html"
+    class="logo"
+  >
+    Web便利ツール
+  </a>
+
+</header>
+
+
+<main class="container tool-page">
+
+  <div class="tool-box">
+
+    <h1 class="tool-title">
+      CREATE TABLE文生成
+    </h1>
+
+    <p class="generator-description">
+      テーブル名やカラムのデータ型・制約を表形式で設定して、
+      CREATE TABLE文を生成できます。
+    </p>
+
+
+    <!-- テーブル名 -->
+
+    <div class="form-group">
+
+      <label for="tableName">
+        テーブル名
+      </label>
+
+      <input
+        type="text"
+        id="tableName"
+        class="form-input"
+        placeholder="例：users"
+        autocomplete="off"
+      >
+
+    </div>
+
+
+    <h2>カラム設定</h2>
+
+
+    <div class="column-table-wrapper">
+
+      <table class="column-table">
+
+        <thead>
+
+          <tr>
+
+            <th>
+              カラム名
+            </th>
+
+            <th>
+              データ型
+              <span class="required">
+                （必須）
+              </span>
+            </th>
+
+            <th>
+              サイズ・桁数
+            </th>
+
+            <th>
+              PRIMARY<br>KEY
+            </th>
+
+            <th>
+              NOT<br>NULL
+            </th>
+
+            <th>
+              UNIQUE
+            </th>
+
+            <th>
+              AUTO<br>INCREMENT
+            </th>
+
+            <th>
+              DEFAULT
+            </th>
+
+            <th>
+              操作
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody id="columnTableBody">
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <div class="generator-buttons">
+
+      <button
+        type="button"
+        class="secondary-button"
+        onclick="addColumn()"
+      >
+        ＋ カラム追加
+      </button>
+
+
+      <button
+        type="button"
+        class="primary-button"
+        onclick="generateSQL()"
+      >
+        CREATE TABLE文を生成
+      </button>
+
+    </div>
+
+
+    <div
+      id="message"
+      class="message"
+    ></div>
+
+
+    <!-- SQL出力 -->
+
+    <section class="output-area">
+
+      <div class="output-header">
+
+        <h2>生成結果</h2>
+
+        <button
+          type="button"
+          class="secondary-button"
+          onclick="copySQL()"
+        >
+          コピー
+        </button>
+
+      </div>
+
+
+      <textarea
+        id="sqlOutput"
+        spellcheck="false"
+        placeholder="ここにCREATE TABLE文が生成されます。生成後に直接編集できます。"
+      ></textarea>
+
+    </section>
+
+  </div>
+
+
+  <!-- 説明 -->
+
+  <section class="tool-description">
+
+    <h2>CREATE TABLE文生成ツールについて</h2>
+
+    <p>
+      データベースのテーブル定義を表形式で入力し、
+      MySQLで使用できるCREATE TABLE文を生成するツールです。
+    </p>
+
+    <p>
+      入力した内容はブラウザ内で処理され、
+      サーバーへ送信されません。
+    </p>
+
+
+    <h2>使用例</h2>
+
+    <div class="example-box">
+
+<pre>テーブル名：users
+
+id
+INT
+PRIMARY KEY
+AUTO_INCREMENT
+
+name
+VARCHAR
+サイズ：100
+NOT NULL
+
+email
+VARCHAR
+サイズ：255
+UNIQUE</pre>
+
+    </div>
+
+
+    <p>
+      上記のように設定すると、
+      次のようなSQLを生成できます。
+    </p>
+
+
+    <div class="example-box">
+
+<pre>CREATE TABLE users (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) UNIQUE
+);</pre>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<script src="../js/table-generator.js"></script>
+
+</body>
+
+</html>
