@@ -2,6 +2,7 @@
 <html lang="ja">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -15,419 +16,547 @@
 
   <meta
     name="description"
-    content="データベースのテスト用データを大量に生成できる無料ツールです。カラム名、データ型、出力例、データ数を指定してINSERT文を自動生成できます。"
+    content="データベース開発・テスト用の大量データをINSERT文として生成できる無料ツールです。"
   >
 
   <meta
     name="robots"
-    content="index, follow"
+    content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
   >
+
+  <link rel="canonical" href="https://rin081321.github.io/web-tools/tools/test-data-generator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="Web便利ツール">
+  <meta property="og:title" content="SQLテストデータ生成｜大量INSERT文を簡単作成">
+  <meta property="og:description" content="データベース開発や動作確認に使える大量のテストデータをINSERT文として無料で生成できます。">
+  <meta property="og:url" content="https://rin081321.github.io/web-tools/tools/test-data-generator.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SQLテストデータ生成｜大量INSERT文を簡単作成">
+  <meta name="twitter:description" content="データベース開発や動作確認に使える大量のテストデータをINSERT文として無料で生成できます。">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SQLテストデータ生成",
+    "url": "https://rin081321.github.io/web-tools/tools/test-data-generator.html",
+    "description": "データベース開発や動作確認に使える大量のテストデータをINSERT文として無料で生成できます。",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "JavaScript対応ブラウザ",
+    "inLanguage": "ja",
+    "isAccessibleForFree": true
+  }
+  </script>
 
   <link
     rel="stylesheet"
     href="../css/style.css"
   >
 
+
   <style>
 
     .generator-description {
-      color: #666;
-      line-height: 1.7;
+
       margin-bottom: 30px;
+
+      color: #666;
+
+      line-height: 1.7;
+
     }
+
 
     .form-group {
+
       margin-bottom: 25px;
+
     }
+
 
     .form-group label {
+
       display: block;
+
       margin-bottom: 8px;
+
       font-weight: bold;
+
     }
+
 
     .form-input {
+
       width: 100%;
+
+      box-sizing: border-box;
+
       padding: 12px;
-      border: 1px solid #d1d5db;
+
+      border:
+        1px solid #d1d5db;
+
       border-radius: 8px;
+
       font-size: 16px;
+
     }
 
-    /* =========================
-       テーブル
-    ========================= */
 
     .column-table-wrapper {
+
       overflow-x: auto;
+
       margin-top: 15px;
+
     }
 
+
     .column-table {
+
       width: 100%;
-      min-width: 800px;
+
+      min-width: 850px;
+
       border-collapse: collapse;
+
     }
+
 
     .column-table th,
     .column-table td {
-      border-bottom: 1px solid #e5e7eb;
+
       padding: 10px;
+
+      border-bottom:
+        1px solid #e5e7eb;
+
       text-align: left;
+
     }
 
+
     .column-table th {
+
       background: #f8fafc;
-      font-size: 14px;
+
       white-space: nowrap;
+
     }
+
 
     .column-table input,
     .column-table select {
+
       width: 100%;
+
+      box-sizing: border-box;
+
       padding: 9px;
-      border: 1px solid #d1d5db;
+
+      border:
+        1px solid #d1d5db;
+
       border-radius: 6px;
-      font-size: 14px;
-      background: white;
+
     }
+
 
     .required {
+
       color: #dc2626;
+
       font-size: 12px;
+
     }
 
-    .delete-column-button {
-      background: #ef4444;
-      color: white;
-      padding: 9px 14px;
-      white-space: nowrap;
+
+    .example-hint {
+
+      display: block;
+
+      margin-top: 3px;
+
+      color: #6b7280;
+
+      font-size: 11px;
+
+      font-weight: normal;
+
     }
 
-    /* =========================
-       ボタン
-    ========================= */
 
     .generator-buttons {
+
       display: flex;
-      gap: 10px;
+
       flex-wrap: wrap;
+
+      gap: 10px;
+
       margin-top: 20px;
+
     }
 
-    button {
-      transition:
-        filter 0.08s ease,
-        transform 0.08s ease;
+
+    .delete-column-button {
+
+      background: #ef4444;
+
+      color: white;
+
     }
 
-    button:active {
-      filter: brightness(0.75);
-      transform: scale(0.97);
-    }
-
-    /* =========================
-       メッセージ
-    ========================= */
 
     .message {
+
       display: none;
+
       margin-top: 15px;
+
       padding: 12px;
+
       border-radius: 8px;
+
     }
+
 
     .message.error {
+
       display: block;
+
       background: #fee2e2;
+
       color: #991b1b;
+
     }
+
 
     .message.success {
+
       display: block;
+
       background: #dcfce7;
+
       color: #166534;
+
     }
 
-    /* =========================
-       SQL出力
-    ========================= */
 
     .output-area {
+
       margin-top: 35px;
+
     }
+
 
     .output-header {
+
       display: flex;
-      justify-content: space-between;
+
+      justify-content:
+        space-between;
+
       align-items: center;
-      gap: 10px;
+
       margin-bottom: 10px;
+
     }
 
-    .output-header h2 {
-      margin: 0;
-    }
 
     #sqlOutput {
+
       width: 100%;
+
       min-height: 400px;
-      resize: vertical;
+
+      box-sizing: border-box;
 
       padding: 15px;
 
-      border: 1px solid #d1d5db;
+      resize: vertical;
+
+      border:
+        1px solid #d1d5db;
+
       border-radius: 8px;
+
+      background: #111827;
+
+      color: white;
 
       font-family:
         Consolas,
-        "Courier New",
         monospace;
 
-      font-size: 14px;
       line-height: 1.6;
 
-      background: #111827;
-      color: #f9fafb;
     }
 
-    .output-info {
-      margin-top: 10px;
-      color: #666;
-      font-size: 14px;
-    }
-
-    /* =========================
-       説明
-    ========================= */
 
     .tool-description {
+
       margin-top: 50px;
+
       line-height: 1.8;
+
     }
 
-    .tool-description h2 {
-      margin-top: 30px;
-      margin-bottom: 10px;
-    }
 
     .example-box {
-      background: #f8fafc;
+
+      margin-top: 15px;
+
       padding: 15px;
+
+      background: #f8fafc;
+
       border-radius: 8px;
-      margin-top: 10px;
-      overflow-x: auto;
-    }
-
-    @media (max-width: 600px) {
-
-      .generator-buttons {
-        display: grid;
-        grid-template-columns: 1fr;
-      }
-
-      .output-header {
-        align-items: flex-start;
-        flex-direction: column;
-      }
 
     }
 
   </style>
+
 </head>
 
 
 <body>
 
+
+<div id="sidebar-container"></div>
+
+
+<div class="main-content">
+
+
 <header>
-  <a href="../index.html" class="logo">
+
+  <a
+    href="../index.html"
+    class="logo"
+  >
     Web便利ツール
   </a>
+
 </header>
 
 
 <main class="container tool-page">
 
-  <div class="tool-box">
 
-    <h1 class="tool-title">
-      SQLテストデータ生成
-    </h1>
-
-    <p class="generator-description">
-      データベースの開発・テストで使用する大量のテストデータを、
-      INSERT文として生成できます。
-      カラムごとに型・出力例・データ数を指定できます。
-    </p>
+<div class="tool-box">
 
 
-    <!-- テーブル名 -->
-
-    <div class="form-group">
-
-      <label for="tableName">
-        テーブル名
-      </label>
-
-      <input
-        type="text"
-        id="tableName"
-        class="form-input"
-        placeholder="例：users"
-        autocomplete="off"
-      >
-
-    </div>
+<h1 class="tool-title">
+  SQLテストデータ生成
+</h1>
 
 
-    <!-- カラム設定 -->
-
-    <h2>カラム設定</h2>
-
-    <div class="column-table-wrapper">
-
-      <table class="column-table">
-
-        <thead>
-          <tr>
-
-            <th>
-              カラム名
-            </th>
-
-            <th>
-              型
-              <span class="required">
-                （必須）
-              </span>
-            </th>
-
-            <th>
-              出力例
-            </th>
-
-            <th>
-              データ数
-              <span class="required">
-                （必須）
-              </span>
-            </th>
-
-            <th>
-              操作
-            </th>
-
-          </tr>
-        </thead>
+<p class="generator-description">
+  データベースの開発・テストで使用する
+  大量のテストデータをINSERT文として生成できます。
+</p>
 
 
-        <tbody id="columnTableBody">
-        </tbody>
+<div class="form-group">
 
-      </table>
+<label for="tableName">
+  テーブル名
+</label>
 
-    </div>
+<input
+  type="text"
+  id="tableName"
+  class="form-input"
+  placeholder="例：users"
+>
 
-
-    <div class="generator-buttons">
-
-      <button
-        type="button"
-        class="secondary-button"
-        onclick="addColumn()"
-      >
-        ＋ カラム追加
-      </button>
-
-      <button
-        type="button"
-        class="primary-button"
-        onclick="generateSQL()"
-      >
-        INSERT文を生成
-      </button>
-
-    </div>
+</div>
 
 
-    <div
-      id="message"
-      class="message"
-    ></div>
+<h2>
+  カラム設定
+</h2>
 
 
-    <!-- 出力 -->
-
-    <section class="output-area">
-
-      <div class="output-header">
-
-        <h2>生成結果</h2>
-
-        <button
-          type="button"
-          class="secondary-button"
-          onclick="copySQL()"
-        >
-          コピー
-        </button>
-
-      </div>
+<div class="column-table-wrapper">
 
 
-      <textarea
-        id="sqlOutput"
-        spellcheck="false"
-        placeholder="ここにINSERT文が生成されます。生成後に直接編集することもできます。"
-      ></textarea>
+<table class="column-table">
 
 
-      <p
-        id="outputInfo"
-        class="output-info"
-      ></p>
+<thead>
 
-    </section>
+<tr>
 
-  </div>
-
-
-  <!-- 説明 -->
-
-  <section class="tool-description">
-
-    <h2>
-      SQLテストデータ生成とは
-    </h2>
-
-    <p>
-      データベース開発時に必要となる大量のテストデータを、
-      INSERT文として生成するツールです。
-      入力した内容はブラウザ内で処理されます。
-    </p>
+<th>
+  カラム名
+</th>
 
 
-  <h2>
+<th>
+
+  型
+
+  <span class="required">
+    （必須）
+  </span>
+
+</th>
+
+
+<th>
+
+  出力例
+
+  <span class="example-hint">
+    例：user_1 / ab_1@xxx.com
+  </span>
+
+</th>
+
+
+<th>
+
+  データ数
+
+  <span class="required">
+    （必須）
+  </span>
+
+</th>
+
+
+<th>
+  操作
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="columnTableBody">
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+<div class="generator-buttons">
+
+
+<button
+  class="secondary-button"
+  onclick="addColumn()"
+>
+  ＋ カラム追加
+</button>
+
+
+<button
+  class="primary-button"
+  onclick="generateSQL()"
+>
+  INSERT文を生成
+</button>
+
+
+</div>
+
+
+<div
+  id="message"
+  class="message"
+></div>
+
+
+<section class="output-area">
+
+
+<div class="output-header">
+
+
+<h2>
+  生成結果
+</h2>
+
+
+<button
+  class="secondary-button"
+  onclick="copySQL()"
+>
+  コピー
+</button>
+
+
+</div>
+
+
+<textarea
+  id="sqlOutput"
+  spellcheck="false"
+  placeholder="ここにINSERT文が生成されます。生成後に直接編集できます。"
+></textarea>
+
+
+<p
+  id="outputInfo"
+></p>
+
+
+</section>
+
+
+</div>
+
+
+<section class="tool-description">
+
+<h2>SQLテストデータ生成ツール</h2>
+
+<p>
+  テーブル名とカラムの型、出力例、データ数を指定して、
+  開発や動作確認に使えるINSERT文をまとめて生成できます。
+</p>
+
+<h2>使い方</h2>
+
+<p>
+  カラムを追加して各項目を設定し、「INSERT文を生成」を押します。
+  生成したSQLは画面上で編集してコピーできます。
+</p>
+
+
+<h2>
   出力例について
 </h2>
 
+
 <p>
-  出力例に規則性のある値を入力すると、
-  値に含まれる数字部分を連番にして
-  テストデータを生成します。
+  出力例に数字を含めることで、
+  数字部分を連番として生成できます。
 </p>
+
 
 <div class="example-box">
 
-  <strong>通常の文字列</strong>
+<strong>
+  通常の文字列
+</strong>
 
-  <pre>入力例：user_001
+<pre>user_001
 
-生成結果：
+↓生成
+
 user_001
 user_002
 user_003
-user_004
 ...</pre>
 
 </div>
@@ -435,57 +564,49 @@ user_004
 
 <div class="example-box">
 
-  <strong>メールアドレス</strong>
+<strong>
+  メールアドレス
+</strong>
 
-  <pre>入力例：ab_1@xxx.com
+<pre>ab_1@xxx.com
 
-生成結果：
+↓生成
+
 ab_1@xxx.com
 ab_2@xxx.com
 ab_3@xxx.com
-ab_4@xxx.com
 ...</pre>
 
-  <p>
-    メールアドレスを生成したい場合は、
-    <strong>ab_1@xxx.com</strong>
-    のように連番にしたい部分に数字を入力してください。
-    数字部分だけが変化し、
-    <strong>@以降のドメイン部分は変わりません。</strong>
-  </p>
-
-</div>
-
-
-<div class="example-box">
-
-  <strong>桁数を指定した連番</strong>
-
-  <pre>入力例：test_001
-
-生成結果：
-test_001
-test_002
-test_003
-...
-test_010
-...
-test_100</pre>
+<p>
+  メールアドレスを生成したい場合は、
+  <strong>ab_1@xxx.com</strong>
+  のように入力してください。
+  数字部分のみが変化するため、
+  <strong>@以降は変わりません。</strong>
+</p>
 
 </div>
 
 
 <p>
-  STRING型またはTEXT型で出力例を入力しなかった場合は、
-  test_1、test_2、test_3... の形式で自動生成されます。
+  STRING型またはTEXT型で出力例が空の場合は、
+  test_1、test_2、test_3... の形式で生成されます。
 </p>
 
-  </section>
+
+</section>
+
 
 </main>
 
 
+</div>
+
+
+<script src="../js/sidebar.js"></script>
+
 <script src="../js/test-data-generator.js"></script>
+
 
 </body>
 

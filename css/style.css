@@ -1,7 +1,15 @@
+/* =========================
+   基本設定
+========================= */
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -10,138 +18,751 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     "Noto Sans JP",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
     sans-serif;
 
   background: #f5f7fb;
   color: #222;
+
   min-height: 100vh;
 }
 
+
+/* =========================
+   ヘッダー
+========================= */
+
 header {
   height: 64px;
+
   background: white;
+
   display: flex;
   align-items: center;
-  padding: 0 24px;
-  border-bottom: 1px solid #ddd;
+
+  padding: 0 28px;
+  padding-right: 140px;
+
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .logo {
   color: #222;
+
   text-decoration: none;
+
   font-size: 20px;
   font-weight: bold;
 }
 
+
+/* =========================
+   メインコンテンツ
+========================= */
+
 .container {
+  width: 100%;
+
   max-width: 1100px;
-  margin: auto;
+
+  margin: 0 auto;
+
   padding: 40px 20px;
 }
 
+.tool-page {
+  max-width: 1100px;
+}
+
+
+/* =========================
+   トップページ
+========================= */
+
 .hero {
   text-align: center;
+
   margin-bottom: 50px;
 }
 
 .hero h1 {
   font-size: 36px;
-  margin-bottom: 10px;
+
+  margin-bottom: 12px;
 }
 
 .hero p {
   color: #666;
+
+  font-size: 16px;
 }
+
+
+/* =========================
+   ツール一覧
+========================= */
 
 .tool-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
   gap: 24px;
 }
 
 .tool-card {
+  display: block;
+
   background: white;
+
   padding: 30px;
+
   border-radius: 14px;
 
   text-decoration: none;
+
   color: #222;
 
-  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  box-shadow:
+    0 3px 12px
+    rgba(0, 0, 0, 0.08);
 
-  transition: 0.2s;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .tool-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+
+  box-shadow:
+    0 8px 22px
+    rgba(0, 0, 0, 0.12);
+}
+
+.tool-card:active {
+  transform: translateY(-2px);
+
+  filter: brightness(0.95);
 }
 
 .tool-icon {
   font-size: 42px;
-  margin-bottom: 20px;
+
+  margin-bottom: 18px;
 }
 
 .tool-card h2 {
   margin-bottom: 10px;
+
+  font-size: 22px;
 }
 
 .tool-card p {
   color: #666;
-  line-height: 1.6;
+
+  line-height: 1.7;
+
+  font-size: 15px;
 }
 
-/* ツール画面 */
 
-.tool-page {
-  max-width: 800px;
-  margin: auto;
-}
+/* =========================
+   各ツール共通
+========================= */
 
 .tool-box {
+  width: 100%;
+
   background: white;
-  padding: 30px;
-  border-radius: 14px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+
+  padding: 36px;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 3px 14px
+    rgba(0, 0, 0, 0.08);
 }
 
 .tool-title {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+
+  font-size: 32px;
+
+  line-height: 1.4;
 }
+
+
+/* =========================
+   共通ボタン
+========================= */
 
 button {
   cursor: pointer;
+
   border: none;
+
   border-radius: 8px;
+
   padding: 12px 20px;
+
+  font-family: inherit;
+
   font-size: 16px;
+
+  transition:
+    filter 0.08s ease,
+    transform 0.08s ease,
+    background 0.15s ease;
+}
+
+button:active {
+  filter: brightness(0.75);
+
+  transform: scale(0.97);
 }
 
 .primary-button {
   background: #2563eb;
+
   color: white;
+}
+
+.primary-button:hover {
+  background: #1d4ed8;
 }
 
 .secondary-button {
   background: #e5e7eb;
+
+  color: #222;
 }
+
+.secondary-button:hover {
+  background: #d1d5db;
+}
+
+
+/* =========================
+   フォーム共通
+========================= */
+
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline:
+    2px solid
+    rgba(37, 99, 235, 0.25);
+
+  border-color: #2563eb;
+}
+
+
+/* =========================
+   説明部分
+========================= */
+
+.tool-description {
+  margin-top: 45px;
+
+  padding: 30px;
+
+  background: white;
+
+  border-radius: 14px;
+
+  line-height: 1.8;
+
+  box-shadow:
+    0 2px 10px
+    rgba(0, 0, 0, 0.05);
+}
+
+.tool-description h2 {
+  margin-top: 28px;
+  margin-bottom: 10px;
+
+  font-size: 22px;
+}
+
+.tool-description h2:first-child {
+  margin-top: 0;
+}
+
+.tool-description p {
+  color: #555;
+
+  margin-bottom: 12px;
+}
+
+.tool-description ul {
+  padding-left: 24px;
+
+  margin-top: 10px;
+}
+
+
+/* =========================
+   フッター
+========================= */
 
 footer {
   text-align: center;
+
   color: #888;
+
   padding: 30px;
 }
 
-/* スマホ */
+
+/* =====================================================
+   メイン領域
+===================================================== */
+
+.main-content {
+  min-width: 0;
+  min-height: 100vh;
+
+  margin-right: 0;
+}
+
+
+/* =====================================================
+   右側サイドバー
+   初期状態は閉じる
+===================================================== */
+
+.sidebar {
+  position: fixed;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  width: 270px;
+
+  background: #111827;
+  color: white;
+
+  padding: 18px 14px;
+
+  overflow-y: auto;
+
+  z-index: 1100;
+
+  /*
+   * 初期状態は画面外
+   */
+  transform: translateX(100%);
+
+  transition:
+    transform 0.25s ease;
+
+  box-shadow:
+    -4px 0 14px
+    rgba(0, 0, 0, 0.15);
+}
+
+
+/*
+ * 開いている状態
+ */
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+
+/*
+ * closedは念のため残す
+ */
+
+.sidebar.closed {
+  transform: translateX(100%);
+}
+
+
+/* =========================
+   サイドバーヘッダー
+========================= */
+
+.sidebar-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 20px;
+}
+
+.sidebar-logo {
+  color: white;
+
+  text-decoration: none;
+
+  font-size: 20px;
+
+  font-weight: bold;
+
+  padding: 10px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================
+   × ボタン
+========================= */
+
+.sidebar-close-button {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 42px;
+  height: 42px;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #f3f4f6;
+
+  color: #111827;
+
+  font-size: 22px;
+
+  cursor: pointer;
+}
+
+.sidebar-close-button:hover {
+  background: #e5e7eb;
+}
+
+
+/* =========================
+   サイドバーリンク
+========================= */
+
+.sidebar-nav {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.sidebar-link {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  width: 100%;
+
+  padding: 12px;
+
+  border-radius: 8px;
+
+  color: #d1d5db;
+
+  text-decoration: none;
+
+  line-height: 1.4;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    transform 0.08s ease;
+}
+
+.sidebar-link:hover {
+  background: #1f2937;
+
+  color: white;
+}
+
+.sidebar-link:active {
+  filter: brightness(0.8);
+
+  transform: scale(0.98);
+}
+
+.sidebar-link.active {
+  background: #2563eb;
+
+  color: white;
+}
+
+.sidebar-icon {
+  width: 24px;
+
+  flex-shrink: 0;
+
+  text-align: center;
+}
+
+.sidebar-label {
+  min-width: 0;
+
+  line-height: 1.4;
+}
+
+
+/* =====================================================
+   メニューボタン
+   常に右上に表示
+===================================================== */
+
+.mobile-menu-button {
+  display: flex;
+
+  position: fixed;
+
+  top: 12px;
+  right: 20px;
+
+  z-index: 1200;
+
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 10px 14px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #111827;
+
+  color: white;
+
+  font-size: 15px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 2px 8px
+    rgba(0, 0, 0, 0.15);
+}
+
+.mobile-menu-button:hover {
+  background: #1f2937;
+}
+
+
+/*
+ * サイドバーが開いているときは
+ * メニューボタンを隠す
+ */
+
+body.sidebar-open
+.mobile-menu-button {
+  display: none;
+}
+
+
+/* =====================================================
+   オーバーレイ
+===================================================== */
+
+.sidebar-overlay {
+  display: block;
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    rgba(0, 0, 0, 0.45);
+
+  z-index: 1050;
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+}
+
+
+/*
+ * サイドバー表示中
+ */
+
+.sidebar-overlay.show {
+  opacity: 1;
+
+  visibility: visible;
+
+  pointer-events: auto;
+}
+
+
+/*
+ * サイドバー表示中は
+ * ページのスクロールを停止
+ */
+
+body.sidebar-open {
+  overflow: hidden;
+}
+
+
+/* =====================================================
+   タブレット
+===================================================== */
+
+@media (max-width: 1000px) {
+
+  .tool-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+/* =====================================================
+   スマホ
+===================================================== */
 
 @media (max-width: 768px) {
 
-  .tool-grid {
-    grid-template-columns: 1fr;
+  .sidebar {
+    width: min(300px, 88vw);
   }
+
+
+  header {
+    padding-left: 20px;
+
+    /*
+     * 右上のメニューとの
+     * 重なり防止
+     */
+    padding-right: 140px;
+  }
+
+
+  .mobile-menu-button {
+    top: 10px;
+    right: 12px;
+  }
+
+
+  .container {
+    padding: 30px 16px;
+  }
+
+
+  .tool-box {
+    padding: 24px 18px;
+  }
+
+
+  .tool-title {
+    font-size: 26px;
+  }
+
+
+  .hero {
+    margin-bottom: 35px;
+  }
+
 
   .hero h1 {
     font-size: 28px;
+  }
+
+
+  .tool-grid {
+    grid-template-columns: 1fr;
+
+    gap: 16px;
+  }
+
+
+  .tool-card {
+    padding: 24px;
+  }
+
+}
+
+
+/* =====================================================
+   小さいスマホ
+===================================================== */
+
+@media (max-width: 480px) {
+
+  header {
+    height: 60px;
+
+    padding-left: 16px;
+
+    padding-right: 120px;
+  }
+
+
+  .logo {
+    font-size: 18px;
+  }
+
+
+  .mobile-menu-button {
+    top: 10px;
+    right: 10px;
+
+    padding: 9px 11px;
+
+    font-size: 14px;
+  }
+
+
+  .container {
+    padding: 24px 12px;
+  }
+
+
+  .tool-box {
+    padding: 22px 16px;
+  }
+
+
+  .tool-description {
+    padding: 22px 18px;
+  }
+
+
+  .hero h1 {
+    font-size: 26px;
+  }
+
+
+  .tool-card {
+    padding: 20px;
   }
 
 }

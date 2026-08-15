@@ -1,82 +1,247 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web便利ツール</title>
-  <link rel="stylesheet" href="css/style.css">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Web便利ツール｜無料オンラインツール集</title>
+
+  <meta
+    name="description"
+    content="文字数カウント、電卓、タイマー、画像編集、SQLテストデータ生成、CREATE TABLE文生成などを無料で使えるWeb便利ツール集です。"
+  >
+
+  <meta
+    name="robots"
+    content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  >
+
+  <link rel="canonical" href="https://rin081321.github.io/web-tools/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="Web便利ツール">
+  <meta property="og:title" content="Web便利ツール｜無料オンラインツール集">
+  <meta property="og:description" content="文字数カウント、電卓、タイマー、画像編集、SQL生成などを無料で使えるオンラインツール集です。">
+  <meta property="og:url" content="https://rin081321.github.io/web-tools/">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Web便利ツール｜無料オンラインツール集">
+  <meta name="twitter:description" content="文字数カウント、電卓、タイマー、画像編集、SQL生成などを無料で使えるオンラインツール集です。">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Web便利ツール",
+    "url": "https://rin081321.github.io/web-tools/",
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
 </head>
+
 <body>
 
-<header>
-  <a href="index.html" class="logo">Web便利ツール</a>
-</header>
+<!-- サイドバー -->
+<div id="sidebar-container"></div>
 
-<main class="container">
 
-  <section class="hero">
-    <h1>Web便利ツール</h1>
-    <p>ブラウザですぐ使える無料の便利ツール集</p>
-  </section>
+<!-- メイン -->
+<div class="main-content">
 
-  <section class="tool-grid">
+  <header>
 
-    <a href="tools/counter.html" class="tool-card">
-      <div class="tool-icon">📝</div>
-      <h2>文字数カウント</h2>
-      <p>入力した文章の文字数・行数・単語数を確認できます。</p>
+    <a
+      href="index.html"
+      class="logo"
+    >
+      Web便利ツール
     </a>
 
-    <a href="tools/calculator.html" class="tool-card">
-      <div class="tool-icon">🧮</div>
-      <h2>電卓</h2>
-      <p>シンプルですぐ使えるブラウザ電卓です。</p>
-    </a>
+  </header>
 
-<a href="tools/timer.html" class="tool-card">
-  <div class="tool-icon">⏱️</div>
 
-  <h2>タイマー・ストップウォッチ</h2>
+  <main class="container">
 
-  <p>
-    カウントダウンタイマーと
-    ストップウォッチを無料で使えます。
-  </p>
-</a>
-<a
-  href="tools/test-data-generator.html"
+    <section class="hero">
+
+      <h1>
+        Web便利ツール
+      </h1>
+
+      <p>
+        ブラウザですぐ使える無料の便利ツール集
+      </p>
+
+    </section>
+
+
+    <section class="tool-grid">
+
+
+      <!-- 文字数カウント -->
+
+      <a
+        href="tools/counter.html"
+        class="tool-card"
+      >
+
+        <div class="tool-icon">
+          📝
+        </div>
+
+        <h2>
+          文字数カウント
+        </h2>
+
+        <p>
+          入力した文章の文字数・空白除外文字数・
+          行数などをリアルタイムで確認できます。
+        </p>
+
+      </a>
+
+
+      <!-- 電卓 -->
+
+      <a
+        href="tools/calculator.html"
+        class="tool-card"
+      >
+
+        <div class="tool-icon">
+          🧮
+        </div>
+
+        <h2>
+          電卓
+        </h2>
+
+        <p>
+          ブラウザですぐ使える
+          シンプルなオンライン電卓です。
+        </p>
+
+      </a>
+
+
+      <!-- タイマー -->
+
+      <a
+        href="tools/timer.html"
+        class="tool-card"
+      >
+
+        <div class="tool-icon">
+          ⏱️
+        </div>
+
+        <h2>
+          タイマー・ストップウォッチ
+        </h2>
+
+        <p>
+          カウントダウンタイマーと
+          ストップウォッチを利用できます。
+        </p>
+
+      </a>
+
+
+      <!-- テストデータ -->
+
+      <a
+        href="tools/test-data-generator.html"
+        class="tool-card"
+      >
+
+        <div class="tool-icon">
+          🗄️
+        </div>
+
+        <h2>
+          SQLテストデータ生成
+        </h2>
+
+        <p>
+          DB開発・テスト用の大量データを
+          INSERT文として生成できます。
+        </p>
+
+      </a>
+
+
+      <!-- CREATE TABLE -->
+
+      <a
+        href="tools/table-generator.html"
+        class="tool-card"
+      >
+
+        <div class="tool-icon">
+          🧱
+        </div>
+
+        <h2>
+          CREATE TABLE文生成
+        </h2>
+
+        <p>
+          カラムやデータ型を表形式で設定して
+          CREATE TABLE文を生成できます。
+        </p>
+
+      </a>
+      <a
+  href="tools/image-editor.html"
   class="tool-card"
 >
-  <div class="tool-icon">🗄️</div>
 
-  <h2>SQLテストデータ生成</h2>
+  <div class="tool-icon">
+    🖼️
+  </div>
 
-  <p>
-    DBの開発・テスト用データを
-    INSERT文として大量に生成できます。
-  </p>
-</a>
-
-<a
-  href="tools/table-generator.html"
-  class="tool-card"
->
-  <div class="tool-icon">🧱</div>
-
-  <h2>CREATE TABLE文生成</h2>
+  <h2>
+    画像編集
+  </h2>
 
   <p>
-    カラムやデータ型を表形式で設定して
-    CREATE TABLE文を生成できます。
+    文字入れ、画像合成、切り抜き、
+    図形、手書き、背景削除などができます。
   </p>
+
 </a>
-  </section>
 
-</main>
 
-<footer>
-  <p>© 2026 Web便利ツール</p>
-</footer>
+    </section>
+
+  </main>
+
+
+  <footer>
+
+    <p>
+      © 2026 Web便利ツール
+    </p>
+
+  </footer>
+
+</div>
+
+
+<script src="js/sidebar.js"></script>
 
 </body>
+
 </html>

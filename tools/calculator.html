@@ -5,136 +5,348 @@
 
   <meta charset="UTF-8">
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <title>電卓 | Web便利ツール</title>
+  <title>
+    無料オンライン電卓｜ブラウザですぐ使える計算機
+  </title>
 
-  <link rel="stylesheet" href="../css/style.css">
+  <meta
+    name="description"
+    content="インストール不要でブラウザからすぐ使える無料オンライン電卓です。四則演算、小数、パーセント計算に対応しています。"
+  >
+
+  <meta
+    name="robots"
+    content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  >
+
+  <link rel="canonical" href="https://rin081321.github.io/web-tools/tools/calculator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="Web便利ツール">
+  <meta property="og:title" content="無料オンライン電卓｜ブラウザですぐ使える計算機">
+  <meta property="og:description" content="四則演算、小数、パーセント計算に対応した無料オンライン電卓です。">
+  <meta property="og:url" content="https://rin081321.github.io/web-tools/tools/calculator.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="無料オンライン電卓｜ブラウザですぐ使える計算機">
+  <meta name="twitter:description" content="四則演算、小数、パーセント計算に対応した無料オンライン電卓です。">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "無料オンライン電卓",
+    "url": "https://rin081321.github.io/web-tools/tools/calculator.html",
+    "description": "四則演算、小数、パーセント計算に対応した無料オンライン電卓です。",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "JavaScript対応ブラウザ",
+    "inLanguage": "ja",
+    "isAccessibleForFree": true
+  }
+  </script>
+
+  <link
+    rel="stylesheet"
+    href="../css/style.css"
+  >
+
 
   <style>
 
     .calculator {
+
       max-width: 380px;
+
       margin: auto;
+
     }
 
+
     #display {
+
       width: 100%;
+
       height: 80px;
 
-      font-size: 32px;
-      text-align: right;
+      box-sizing: border-box;
 
       padding: 15px;
 
       margin-bottom: 15px;
 
-      border: 1px solid #ccc;
+      font-size: 32px;
+
+      text-align: right;
+
+      border:
+        1px solid #ccc;
+
       border-radius: 10px;
 
       background: #fafafa;
+
     }
+
 
     .calculator-buttons {
+
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
       gap: 10px;
+
     }
+
 
     .calculator-buttons button {
+
       height: 60px;
+
       background: #e5e7eb;
+
       font-size: 20px;
+
     }
 
-    .calculator-buttons .operator {
+
+    .calculator-buttons
+    .operator {
+
       background: #2563eb;
+
       color: white;
+
     }
 
-    .calculator-buttons .clear {
+
+    .calculator-buttons
+    .clear {
+
       background: #ef4444;
+
       color: white;
+
+    }
+
+
+    .tool-description {
+
+      margin-top: 50px;
+
+      line-height: 1.8;
+
     }
 
   </style>
 
 </head>
 
+
 <body>
 
-<header>
-  <a href="../index.html" class="logo">
-    Web便利ツール
-  </a>
-</header>
 
-<main class="container tool-page">
-
-<div class="tool-box calculator">
-
-<h1 class="tool-title">電卓</h1>
-
-<input
-  id="display"
-  type="text"
-  readonly
->
-
-<div class="calculator-buttons">
-
-<button class="clear" onclick="clearDisplay()">C</button>
-
-<button onclick="deleteLast()">⌫</button>
-
-<button onclick="appendValue('%')">%</button>
-
-<button class="operator" onclick="appendValue('/')">÷</button>
+<div id="sidebar-container"></div>
 
 
-<button onclick="appendValue('7')">7</button>
-
-<button onclick="appendValue('8')">8</button>
-
-<button onclick="appendValue('9')">9</button>
-
-<button class="operator" onclick="appendValue('*')">×</button>
+<div class="main-content">
 
 
-<button onclick="appendValue('4')">4</button>
+  <header>
 
-<button onclick="appendValue('5')">5</button>
+    <a
+      href="../index.html"
+      class="logo"
+    >
+      Web便利ツール
+    </a>
 
-<button onclick="appendValue('6')">6</button>
-
-<button class="operator" onclick="appendValue('-')">−</button>
-
-
-<button onclick="appendValue('1')">1</button>
-
-<button onclick="appendValue('2')">2</button>
-
-<button onclick="appendValue('3')">3</button>
-
-<button class="operator" onclick="appendValue('+')">＋</button>
+  </header>
 
 
-<button onclick="appendValue('0')">0</button>
+  <main class="container tool-page">
 
-<button onclick="appendValue('.')">.</button>
 
-<button onclick="appendValue('00')">00</button>
+    <div class="tool-box calculator">
 
-<button class="operator" onclick="calculate()">＝</button>
+
+      <h1 class="tool-title">
+        電卓
+      </h1>
+
+
+      <input
+        id="display"
+        type="text"
+        readonly
+      >
+
+
+      <div class="calculator-buttons">
+
+
+        <button
+          class="clear"
+          onclick="clearDisplay()"
+        >
+          C
+        </button>
+
+
+        <button
+          onclick="deleteLast()"
+        >
+          ⌫
+        </button>
+
+
+        <button
+          onclick="appendValue('%')"
+        >
+          %
+        </button>
+
+
+        <button
+          class="operator"
+          onclick="appendValue('/')"
+        >
+          ÷
+        </button>
+
+
+        <button onclick="appendValue('7')">
+          7
+        </button>
+
+        <button onclick="appendValue('8')">
+          8
+        </button>
+
+        <button onclick="appendValue('9')">
+          9
+        </button>
+
+
+        <button
+          class="operator"
+          onclick="appendValue('*')"
+        >
+          ×
+        </button>
+
+
+        <button onclick="appendValue('4')">
+          4
+        </button>
+
+        <button onclick="appendValue('5')">
+          5
+        </button>
+
+        <button onclick="appendValue('6')">
+          6
+        </button>
+
+
+        <button
+          class="operator"
+          onclick="appendValue('-')"
+        >
+          −
+        </button>
+
+
+        <button onclick="appendValue('1')">
+          1
+        </button>
+
+        <button onclick="appendValue('2')">
+          2
+        </button>
+
+        <button onclick="appendValue('3')">
+          3
+        </button>
+
+
+        <button
+          class="operator"
+          onclick="appendValue('+')"
+        >
+          ＋
+        </button>
+
+
+        <button onclick="appendValue('0')">
+          0
+        </button>
+
+        <button onclick="appendValue('.')">
+          .
+        </button>
+
+        <button onclick="appendValue('00')">
+          00
+        </button>
+
+
+        <button
+          class="operator"
+          onclick="calculate()"
+        >
+          ＝
+        </button>
+
+
+      </div>
+
+    </div>
+
+
+    <section class="tool-description">
+
+      <h2>
+        無料オンライン電卓
+      </h2>
+
+      <p>
+        インストール不要で、
+        ブラウザからすぐ使える電卓です。
+      </p>
+
+      <h2>使い方</h2>
+
+      <p>
+        数字と演算子を順に押し、「＝」で計算します。
+        Cで入力を消去し、⌫で最後の1文字だけ削除できます。
+      </p>
+
+      <h2>対応している計算</h2>
+
+      <p>
+        足し算・引き算・掛け算・割り算、小数、パーセントを使った計算に対応しています。
+      </p>
+
+    </section>
+
+
+  </main>
 
 </div>
 
-</div>
 
-</main>
+<script src="../js/sidebar.js"></script>
 
 <script src="../js/calculator.js"></script>
 
+
 </body>
+
 </html>

@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    無料画像編集｜文字入れ・切り抜き・背景削除・手書き
+  </title>
+
+  <meta
+    name="description"
+    content="文字入れ、画像貼り付け、切り抜き、図形、手書き、背景削除、回転、反転などができる無料オンライン画像編集ツールです。"
+  >
+
+  <meta
+    name="robots"
+    content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  >
+
+  <link rel="canonical" href="https://rin081321.github.io/web-tools/tools/image-editor.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="Web便利ツール">
+  <meta property="og:title" content="無料画像編集｜文字入れ・切り抜き・背景削除・手書き">
+  <meta property="og:description" content="文字入れ、画像合成、切り抜き、図形、手書き、背景削除などをブラウザで使える無料画像編集ツールです。">
+  <meta property="og:url" content="https://rin081321.github.io/web-tools/tools/image-editor.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="無料画像編集｜文字入れ・切り抜き・背景削除・手書き">
+  <meta name="twitter:description" content="文字入れ、画像合成、切り抜き、図形、手書き、背景削除などをブラウザで使える無料画像編集ツールです。">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "無料オンライン画像編集",
+    "url": "https://rin081321.github.io/web-tools/tools/image-editor.html",
+    "description": "文字入れ、画像合成、切り抜き、図形、手書き、背景削除などをブラウザで使える無料画像編集ツールです。",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "JavaScript対応ブラウザ",
+    "inLanguage": "ja",
+    "isAccessibleForFree": true
+  }
+  </script>
+
+  <link
+    rel="stylesheet"
+    href="../css/style.css"
+  >
+
+
+  <style>
+
+    /* =========================================
+       上部操作エリア
+    ========================================= */
+
+    .editor-control-box {
+      background: white;
+
+      padding: 20px;
+
+      border-radius: 14px;
+
+      margin-bottom: 20px;
+
+      box-shadow:
+        0 3px 14px
+        rgba(0, 0, 0, 0.08);
+    }
+
+
+    .editor-top-row {
+      display: grid;
+
+      grid-template-columns:
+        minmax(180px, 260px) 1fr;
+
+      gap: 18px;
+
+      align-items: end;
+    }
+
+
+    .editor-field label {
+      display: block;
+
+      margin-bottom: 6px;
+
+      font-size: 13px;
+
+      font-weight: bold;
+    }
+
+
+    .editor-field input,
+    .editor-field select {
+      width: 100%;
+
+      padding: 10px;
+
+      border:
+        1px solid #d1d5db;
+
+      border-radius: 8px;
+    }
+
+
+    /* =========================================
+       機能パネル
+    ========================================= */
+
+    .tool-panel {
+      display: none;
+
+      margin-top: 20px;
+
+      padding-top: 20px;
+
+      border-top:
+        1px solid #e5e7eb;
+    }
+
+
+    .tool-panel.active {
+      display: block;
+    }
+
+
+    .tool-grid-form {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: 14px;
+    }
+
+
+    .tool-grid-form.two {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+
+    .tool-actions {
+      display: flex;
+
+      gap: 10px;
+
+      flex-wrap: wrap;
+
+      margin-top: 15px;
+    }
+
+
+    .tool-help {
+      margin-top: 8px;
+
+      color: #666;
+
+      font-size: 13px;
+
+      line-height: 1.6;
+    }
+
+
+    /* =========================================
+       Canvas
+    ========================================= */
+
+    .canvas-panel {
+      background: white;
+
+      padding: 20px;
+
+      border-radius: 14px;
+
+      box-shadow:
+        0 3px 14px
+        rgba(0, 0, 0, 0.08);
+    }
+
+
+    .canvas-toolbar {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      flex-wrap: wrap;
+
+      gap: 10px;
+
+      margin-bottom: 15px;
+    }
+
+
+    .history-buttons {
+      display: flex;
+
+      gap: 8px;
+
+      flex-wrap: wrap;
+    }
+
+
+    .canvas-wrapper {
+      width: 100%;
+
+      min-height: 500px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      overflow: auto;
+
+      padding: 20px;
+
+      border-radius: 10px;
+
+      background-color: #eee;
+
+      background-image:
+
+        linear-gradient(
+          45deg,
+          #ddd 25%,
+          transparent 25%
+        ),
+
+        linear-gradient(
+          -45deg,
+          #ddd 25%,
+          transparent 25%
+        ),
+
+        linear-gradient(
+          45deg,
+          transparent 75%,
+          #ddd 75%
+        ),
+
+        linear-gradient(
+          -45deg,
+          transparent 75%,
+          #ddd 75%
+        );
+
+      background-size:
+        20px 20px;
+
+      background-position:
+        0 0,
+        0 10px,
+        10px -10px,
+        -10px 0;
+    }
+
+
+    #editorCanvas {
+      display: block;
+
+      max-width: 100%;
+
+      height: auto;
+
+      background: transparent;
+
+      box-shadow:
+        0 3px 15px
+        rgba(0, 0, 0, 0.15);
+
+      touch-action: none;
+    }
+
+
+    .editor-message {
+      min-height: 24px;
+
+      margin-top: 12px;
+
+      font-size: 14px;
+
+      color: #2563eb;
+    }
+
+
+    .editor-message.error {
+      color: #dc2626;
+    }
+
+
+    .checkbox-line {
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      min-height: 42px;
+    }
+
+
+    .checkbox-line input {
+      width: auto;
+    }
+
+
+    @media (max-width: 900px) {
+
+      .editor-top-row {
+        grid-template-columns: 1fr;
+      }
+
+
+      .tool-grid-form,
+      .tool-grid-form.two {
+        grid-template-columns: 1fr;
+      }
+
+
+      .canvas-wrapper {
+        min-height: 350px;
+
+        padding: 10px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div id="sidebar-container"></div>
+
+
+<div class="main-content">
+
+
+<header>
+
+  <a
+    href="../index.html"
+    class="logo"
+  >
+    Web便利ツール
+  </a>
+
+</header>
+
+
+<main class="container">
+
+
+  <h1 class="tool-title">
+    画像編集
+  </h1>
+
+
+  <!-- =====================================
+       上部編集メニュー
+  ====================================== -->
+
+  <section class="editor-control-box">
+
+
+    <div class="editor-top-row">
+
+
+      <div class="editor-field">
+
+        <label>
+          編集する画像
+        </label>
+
+        <input
+          type="file"
+          id="baseImageInput"
+          accept="image/*"
+        >
+
+      </div>
+
+
+      <div class="editor-field">
+
+        <label for="editorToolSelect">
+          編集機能
+        </label>
+
+        <select id="editorToolSelect">
+
+          <option value="select">
+            選択・移動
+          </option>
+
+          <option value="text">
+            テキスト挿入・編集
+          </option>
+
+          <option value="overlay">
+            画像貼り付け
+          </option>
+
+          <option value="shape">
+            図形
+          </option>
+
+          <option value="draw">
+            手書き
+          </option>
+
+          <option value="crop">
+            切り抜き
+          </option>
+
+          <option value="background">
+            背景削除
+          </option>
+
+          <option value="filter">
+            明るさ・色調整
+          </option>
+
+          <option value="transform">
+            回転・反転
+          </option>
+
+          <option value="save">
+            保存・リセット
+          </option>
+
+        </select>
+
+      </div>
+
+
+    </div>
+
+
+    <!-- =================================
+         選択
+    ================================== -->
+
+    <div
+      id="panel-select"
+      class="tool-panel active"
+    >
+
+      <h2>
+        選択・移動
+      </h2>
+
+      <p class="tool-help">
+        テキストや貼り付け画像をクリックすると選択できます。
+        選択したオブジェクトはドラッグして移動できます。
+      </p>
+
+
+      <div class="tool-actions">
+
+        <button
+          type="button"
+          class="secondary-button"
+          id="smallerButton"
+        >
+          − 縮小
+        </button>
+
+
+        <button
+          type="button"
+          class="secondary-button"
+          id="largerButton"
+        >
+          ＋ 拡大
+        </button>
+
+
+        <button
+          type="button"
+          class="danger-button"
+          id="deleteObjectButton"
+        >
+          選択中を削除
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================
+         テキスト
+    ================================== -->
+
+    <div
+      id="panel-text"
+      class="tool-panel"
+    >
+
+      <h2>
+        テキスト挿入・編集
+      </h2>
+
+
+      <div class="tool-grid-form">
+
+
+        <div class="editor-field">
+
+          <label>
+            テキスト
+          </label>
+
+          <input
+            type="text"
+            id="textInput"
+            placeholder="文字を入力"
+          >
+
+        </div>
+
+
+        <div class="editor-field">
+
+          <label>
+            フォント
+          </label>
+
+          <select id="fontFamily">
+
+            <option value="sans-serif">
+              ゴシック
+            </option>
+
+            <option value="serif">
+              明朝
+            </option>
+
+            <option value="monospace">
+              等幅
+            </option>
+
+            <option value="Arial">
+              Arial
+            </option>
+
+            <option value="Verdana">
+              Verdana
+            </option>
+
+            <option value="Georgia">
+              Georgia
+            </option>
+
+            <option value="Times New Roman">
+              Times New Roman
+            </option>
+
+            <option value="Courier New">
+              Courier New
+            </option>
+
+            <option value="Yu Gothic">
+              游ゴシック
+            </option>
+
+            <option value="Yu Mincho">
+              游明朝
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="editor-field">
+
+          <label>
+            文字サイズ
+          </label>
+
+          <input
+            type="number"
+            id="textSize"
+            value="48"
+            min="8"
+            max="500"
+          >
+
+        </div>
+
+
+        <div class="editor-field">
+
+          <label>
+            文字色
+          </label>
+
+          <input
+            type="color"
+            id="textColor"
+            value="#000000"
+          >
+
+        </div>
+
+
+        <div class="editor-field">
+
+          <label>
+            太字
+          </label>
+
+          <div class="checkbox-line">
+
+            <input
+              type="checkbox"
+              id="textBold"
+            >
+
+            <span>
+              太字にする
+            </span>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="tool-actions">
+
+        <button
+          type="button"
+          class="primary-button"
+          id="addTextButton"
+        >
+          新しいテキストを追加
+        </button>
+
+
+        <button
+          type="button"
+          class="secondary-button"
+          id="updateTextButton"
+          disabled
+        >
+          選択中のテキストを更新
+        </button>
+
+      </div>
+
+
+      <p class="tool-help">
+        追加済みのテキストを画像上でクリックすると、
+        この欄に内容が読み込まれます。
+        内容を変更して「選択中のテキストを更新」を押してください。
+      </p>
+
+    </div>
+
+
+    <!-- =================================
+         画像貼り付け
+    ================================== -->
+
+    <div
+      id="panel-overlay"
+      class="tool-panel"
+    >
+
+      <h2>
+        画像貼り付け
+      </h2>
+
+
+      <div class="editor-field">
+
+        <label>
+          貼り付ける画像
+        </label>
+
+        <input
+          type="file"
+          id="overlayImageInput"
+          accept="image/*"
+        >
+
+      </div>
+
+
+      <p class="tool-help">
+        貼り付けた画像はクリックして選択し、
+        ドラッグで移動できます。
+      </p>
+
+    </div>
+
+
+    <!-- =================================
+         図形
+    ================================== -->
+
+    <div
+      id="panel-shape"
+      class="tool-panel"
+    >
+
+      <h2>
+        図形
+      </h2>
+
+
+      <div class="tool-grid-form">
+
+
+        <div class="editor-field">
+
+          <label>
+            図形
+          </label>
+
+          <select id="shapeType">
+
+            <option value="rectangle">
+              長方形
+            </option>
+
+            <option value="circle">
+              円・楕円
+            </option>
+
+            <option value="line">
+              線
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="editor-field">
+
+          <label>
+            線の色
+          </label>
+
+          <input
+            type="color"
+            id="shapeColor"
+            value="#ff0000"
+          >
+
+        </div>
+
+
+        <div class="editor-field">
+
+          <label>
+            線の太さ
+          </label>
+
+          <input
+            type="range"
+            id="shapeWidth"
+            min="1"
+            max="30"
+            value="5"
+          >
+
+        </div>
+
+
+        <div class="editor-field">
+
+          <label>
+            塗りつぶし
+          </label>
+
+          <div class="checkbox-line">
+
+            <input
+              type="checkbox"
+              id="shapeFill"
+            >
+
+            <span>
+              塗りつぶす
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="editor-field">
+
+          <label>
+            塗りつぶし色
+          </label>
+
+          <input
+            type="color"
+            id="shapeFillColor"
+            value="#ffff00"
+          >
+
+        </div>
+
+
+      </div>
+
+
+      <div class="tool-actions">
+
+        <button
+          type="button"
+          class="primary-button"
+          id="shapeButton"
+        >
+          図形描画モード
+        </button>
+
+      </div>
+
+
+      <p class="tool-help">
+        図形描画モードにして画像上をドラッグしてください。
+      </p>
+
+    </div>
+
+
+    <!-- =================================
+         手書き
+    ================================== -->
+
+    <div
+      id="panel-draw"
+      class="tool-panel"
+    >
+
+      <h2>
+        手書き
+      </h2>
+
+
+      <div class="tool-grid-form two">
+
+
+        <div class="editor-field">
+
+          <label>
+            色
+          </label>
+
+          <input
+            type="color"
+            id="drawColor"
+            value="#000000"
+          >
+
+        </div>
+
+
+        <div class="editor-field">
+
+          <label>
+            太さ
+          </label>
+
+          <input
+            type="range"
+            id="drawWidth"
+            min="1"
+            max="50"
+            value="5"
+          >
+
+        </div>
+
+
+      </div>
+
+
+      <div class="tool-actions">
+
+        <button
+          type="button"
+          class="primary-button"
+          id="drawButton"
+        >
+          手書きモード
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================
+         切り抜き
+    ================================== -->
+
+    <div
+      id="panel-crop"
+      class="tool-panel"
+    >
+
+      <h2>
+        切り抜き
+      </h2>
+
+
+      <div class="tool-actions">
+
+        <button
+          type="button"
+          class="secondary-button"
+          id="cropButton"
+        >
+          範囲を選択
+        </button>
+
+
+        <button
+          type="button"
+          class="primary-button"
+          id="applyCropButton"
+          disabled
+        >
+          切り抜きを実行
+        </button>
+
+      </div>
+
+
+      <p class="tool-help">
+        「範囲を選択」を押したあと、
+        画像上をドラッグしてください。
+      </p>
+
+    </div>
+
+
+    <!-- =================================
+         背景削除
+    ================================== -->
+
+    <div
+      id="panel-background"
+      class="tool-panel"
+    >
+
+      <h2>
+        背景削除
+      </h2>
+
+
+      <div class="editor-field">
+
+        <label>
+          色の許容範囲
+        </label>
+
+        <input
+          type="range"
+          id="backgroundTolerance"
+          min="0"
+          max="150"
+          value="40"
+        >
+
+      </div>
+
+
+      <p>
+        設定値：
+        <strong id="toleranceValue">
+          40
+        </strong>
+      </p>
+
+
+      <div class="tool-actions">
+
+        <button
+          type="button"
+          class="primary-button"
+          id="backgroundRemoveButton"
+        >
+          背景削除モード
+        </button>
+
+      </div>
+
+
+      <p class="tool-help">
+        消したい背景部分をクリックしてください。
+        クリックした色に近く、つながっている範囲を透明化します。
+      </p>
+
+    </div>
+
+
+    <!-- =================================
+         フィルター
+    ================================== -->
+
+    <div
+      id="panel-filter"
+      class="tool-panel"
+    >
+
+      <h2>
+        明るさ・色調整
+      </h2>
+
+
+      <div class="tool-grid-form">
+
+
+        <div class="editor-field">
+
+          <label>
+            明るさ
+          </label>
+
+          <input
+            type="range"
+            id="brightness"
+            min="0"
+            max="200"
+            value="100"
+          >
+
+        </div>
+
+
+        <div class="editor-field">
+
+          <label>
+            コントラスト
+          </label>
+
+          <input
+            type="range"
+            id="contrast"
+            min="0"
+            max="200"
+            value="100"
+          >
+
+        </div>
+
+
+        <div class="editor-field">
+
+          <label>
+            彩度
+          </label>
+
+          <input
+            type="range"
+            id="saturation"
+            min="0"
+            max="200"
+            value="100"
+          >
+
+        </div>
+
+
+        <div class="editor-field">
+
+          <label>
+            グレースケール
+          </label>
+
+          <div class="checkbox-line">
+
+            <input
+              type="checkbox"
+              id="grayscale"
+            >
+
+            <span>
+              白黒にする
+            </span>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="tool-actions">
+
+        <button
+          type="button"
+          class="primary-button"
+          id="applyFilterButton"
+        >
+          調整を適用
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================
+         回転
+    ================================== -->
+
+    <div
+      id="panel-transform"
+      class="tool-panel"
+    >
+
+      <h2>
+        回転・反転
+      </h2>
+
+
+      <div class="tool-actions">
+
+        <button
+          type="button"
+          class="secondary-button"
+          id="rotateLeftButton"
+        >
+          ↶ 左90°
+        </button>
+
+
+        <button
+          type="button"
+          class="secondary-button"
+          id="rotateRightButton"
+        >
+          ↷ 右90°
+        </button>
+
+
+        <button
+          type="button"
+          class="secondary-button"
+          id="flipHorizontalButton"
+        >
+          ⇆ 左右反転
+        </button>
+
+
+        <button
+          type="button"
+          class="secondary-button"
+          id="flipVerticalButton"
+        >
+          ⇅ 上下反転
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================
+         保存
+    ================================== -->
+
+    <div
+      id="panel-save"
+      class="tool-panel"
+    >
+
+      <h2>
+        保存
+      </h2>
+
+
+      <div class="tool-grid-form two">
+
+
+        <div class="editor-field">
+
+          <label>
+            保存形式
+          </label>
+
+          <select id="saveFormat">
+
+            <option value="png">
+              PNG
+            </option>
+
+            <option value="jpeg">
+              JPEG
+            </option>
+
+          </select>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="tool-actions">
+
+        <button
+          type="button"
+          class="primary-button"
+          id="saveButton"
+        >
+          画像を保存
+        </button>
+
+
+        <button
+          type="button"
+          class="danger-button"
+          id="resetButton"
+        >
+          編集をリセット
+        </button>
+
+      </div>
+
+    </div>
+
+
+  </section>
+
+
+  <!-- =====================================
+       Canvas
+  ====================================== -->
+
+  <section class="canvas-panel">
+
+
+    <div class="canvas-toolbar">
+
+      <strong>
+        編集画面
+      </strong>
+
+
+      <div class="history-buttons">
+
+        <button
+          type="button"
+          class="secondary-button"
+          id="undoButton"
+          disabled
+        >
+          ↶ 元に戻す
+        </button>
+
+
+        <button
+          type="button"
+          class="secondary-button"
+          id="redoButton"
+          disabled
+        >
+          ↷ やり直す
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="canvas-wrapper">
+
+      <canvas
+        id="editorCanvas"
+        width="900"
+        height="600"
+      ></canvas>
+
+    </div>
+
+
+    <div
+      id="editorMessage"
+      class="editor-message"
+    >
+      最初に画像を選択してください。
+    </div>
+
+
+  </section>
+
+  <section class="tool-description">
+    <h2>無料オンライン画像編集ツール</h2>
+    <p>
+      画像への文字入れ、別画像の貼り付け、切り抜き、図形、手書き、背景削除、
+      明るさ調整、回転、反転をブラウザ上で行えます。
+    </p>
+
+    <h2>画像を編集する方法</h2>
+    <p>
+      編集する画像を選び、編集機能の一覧から使いたい操作を選択します。
+      編集後はPNGまたはJPEG形式で保存できます。
+    </p>
+
+    <h2>プライバシーについて</h2>
+    <p>
+      画像処理はブラウザ内で実行されます。編集のために画像を外部サーバーへ送信しません。
+    </p>
+  </section>
+
+
+</main>
+
+
+</div>
+
+
+<script src="../js/sidebar.js"></script>
+<script src="../js/image-editor.js"></script>
+
+
+</body>
+
+</html>
