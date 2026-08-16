@@ -29,6 +29,42 @@ document.addEventListener(
        メニュー設定
     ========================= */
 
+    const menuGroups = [
+      { label: "人気", items: [
+        ["timer", "⏱️", "タイマー・ストップウォッチ"],
+        ["test-data-generator", "🗄️", "テーブルINSERT生成"],
+        ["table-generator", "🧱", "CREATE TABLE生成"],
+        ["image-editor", "🖼️", "画像編集"],
+        ["video-editor", "🎬", "動画編集"],
+        ["counter", "📝", "文字数カウント"]
+      ]},
+      { label: "日常ツール", items: [
+        ["roulette", "🎡", "ルーレット"],
+        ["bmi-calculator", "⚖️", "BMI計算"], ["loan-calculator", "🏦", "ローン返済計算"],
+        ["random-picker", "🎯", "抽選・ランダム選択"], ["barcode-generator", "🏷️", "バーコード生成"],
+        ["qr-reader", "📷", "QRコード読み取り"], ["password-generator", "🔑", "パスワード生成"],
+        ["unit-converter", "📐", "単位変換"], ["color-converter", "🎨", "カラーコード変換"],
+        ["date-calculator", "🗓️", "日付・年齢計算"],
+        ["counter", "📝", "文字数カウント"], ["calculator", "🧮", "電卓"],
+        ["timer", "⏱️", "タイマー・ストップウォッチ"], ["image-editor", "🖼️", "画像編集"],
+        ["video-editor", "🎬", "動画編集"]
+      ]},
+      { label: "セキュリティ", items: [
+        ["hash-generator", "#️⃣", "ハッシュ生成"],
+        ["csp-builder", "🛡️", "CSP作成・診断"], ["certificate-checker", "📜", "証明書チェック"],
+        ["regex-safety", "🧪", "正規表現安全性チェック"], ["actions-audit", "⚙️", "GitHub Actions監査"]
+      ]},
+      { label: "API・データ", items: [
+        ["json-formatter", "🧩", "JSON整形"], ["csv-json-converter", "🔄", "CSV・JSON変換"],
+        ["text-diff", "🆚", "文章比較"],
+        ["data-magic", "✨", "データ自動判定・変換"], ["api-diff", "🔍", "APIレスポンス差分"],
+        ["test-data-generator", "🗄️", "SQLテストデータ生成"], ["table-generator", "🧱", "CREATE TABLE文生成"]
+      ]},
+      { label: "開発・運用", items: [
+        ["cron-calendar", "📅", "Cron実行カレンダー"], ["error-pack", "📦", "エラー共有パック"]
+      ]}
+    ];
+
     const menuItems = [
 
       {
@@ -39,82 +75,9 @@ document.addEventListener(
         toolPath: "../index.html"
       },
 
-      {
-        id: "counter",
-        icon: "📝",
-        label: "文字数カウント",
-        rootPath:
-          "tools/counter.html",
-        toolPath:
-          "counter.html"
-      },
-
-      {
-        id: "calculator",
-        icon: "🧮",
-        label: "電卓",
-        rootPath:
-          "tools/calculator.html",
-        toolPath:
-          "calculator.html"
-      },
-
-      {
-        id: "timer",
-        icon: "⏱️",
-        label:
-          "タイマー・ストップウォッチ",
-        rootPath:
-          "tools/timer.html",
-        toolPath:
-          "timer.html"
-      },
-
-      {
-        id:
-          "test-data-generator",
-
-        icon: "🗄️",
-
-        label:
-          "SQLテストデータ生成",
-
-        rootPath:
-          "tools/test-data-generator.html",
-
-        toolPath:
-          "test-data-generator.html"
-      },
-
-      {
-        id:
-          "table-generator",
-
-        icon: "🧱",
-
-        label:
-          "CREATE TABLE文生成",
-
-        rootPath:
-          "tools/table-generator.html",
-
-        toolPath:
-          "table-generator.html"
-      },
-      {
-  id: "image-editor",
-  icon: "🖼️",
-  label: "画像編集",
-  rootPath: "tools/image-editor.html",
-  toolPath: "image-editor.html"
-},
-      {
-  id: "privacy-checker",
-  icon: "🔒",
-  label: "公開前プライバシー検査",
-  rootPath: "tools/privacy-checker.html",
-  toolPath: "privacy-checker.html"
-}
+      ...menuGroups.flatMap(group => group.items).filter((item, index, all) =>
+        all.findIndex(other => other[0] === item[0]) === index
+      ).map(([id, icon, label]) => ({ id, icon, label, rootPath: `tools/${id}.html`, toolPath: `${id}.html` }))
 
     ];
 
@@ -185,9 +148,7 @@ document.addEventListener(
        メニューHTML
     ========================= */
 
-    const menuHTML =
-      menuItems
-        .map(item => {
+    const renderItem = item => {
 
           const href =
             isToolPage
@@ -225,8 +186,15 @@ document.addEventListener(
 
           `;
 
-        })
-        .join("");
+        };
+
+    const homeItem = menuItems[0];
+    const menuHTML = renderItem(homeItem) + menuGroups.map((group, index) => {
+      const items = group.items.map(([id]) => renderItem(menuItems.find(item => item.id === id))).join("");
+      if (index === 0) return `<div class="sidebar-section-title popular-title">${group.label}</div>${items}`;
+      const containsActive = group.items.some(([id]) => id === currentPageId);
+      return `<button type="button" class="sidebar-section-toggle" aria-expanded="${containsActive}" aria-controls="sidebar-group-${index}"><span>${group.label}</span><span class="sidebar-chevron">⌄</span></button><div id="sidebar-group-${index}" class="sidebar-section-items ${containsActive ? "open" : ""}">${items}</div>`;
+    }).join("");
 
 
     /* =========================
@@ -551,6 +519,19 @@ document.addEventListener(
 
       }
     );
+
+    sidebar.querySelectorAll(".sidebar-section-toggle").forEach(button => {
+      button.addEventListener("click", () => {
+        const target = document.getElementById(button.getAttribute("aria-controls"));
+        const open = button.getAttribute("aria-expanded") === "true";
+        button.setAttribute("aria-expanded", String(!open));
+        target.classList.toggle("open", !open);
+      });
+    });
+
+    const searchScript = document.createElement("script");
+    searchScript.src = (isToolPage ? "../js/site-search.js" : "js/site-search.js") + "?v=20260816-2";
+    document.body.appendChild(searchScript);
 
   }
 );
