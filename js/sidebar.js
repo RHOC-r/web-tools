@@ -107,6 +107,13 @@ document.addEventListener(
   label: "画像編集",
   rootPath: "tools/image-editor.html",
   toolPath: "image-editor.html"
+},
+      {
+  id: "privacy-checker",
+  icon: "🔒",
+  label: "公開前プライバシー検査",
+  rootPath: "tools/privacy-checker.html",
+  toolPath: "privacy-checker.html"
 }
 
     ];
